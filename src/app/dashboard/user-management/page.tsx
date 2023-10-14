@@ -7,9 +7,15 @@ import { format } from "date-fns";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LiaEdit } from "react-icons/lia";
 import { GrView } from "react-icons/gr";
+import { useState } from "react";
+import CommonModal from "@/components/CommonModal/CommonModal";
 const UserManagement = () => {
    const { data = [], isLoading, isError, error } = useGetUserQuery(undefined);
+   const [showModal, setShowModal] = useState<boolean>(false);
+   const [selected, setSelected] = useState<any>({});
    console.log(data, isLoading, isError, error);
+
+  
    return (
       <div>
          <h2 className="text-xl font-semibold text-secondary">All users</h2>
@@ -29,9 +35,7 @@ const UserManagement = () => {
                {data?.data?.map((user: any, idx: number) => (
                   <TableRow
                      key={user?._id}
-                     styles={`text-xs ${
-                        idx % 2 === 1 && "bg-primary" 
-                     }`}
+                     styles={`text-xs ${idx % 2 === 1 && "bg-primary"}`}
                   >
                      <TableCol styles="text-xs">{idx + 1}</TableCol>
                      <TableCol styles="text-xs">{user.name}</TableCol>
@@ -46,7 +50,13 @@ const UserManagement = () => {
                      <TableCol styles="text-xs">
                         <div className="flex items-center justify-center gap-1">
                            <RiDeleteBin5Fill size={20}></RiDeleteBin5Fill>
-                           <LiaEdit size={20}></LiaEdit>
+                           <LiaEdit
+                              size={20}
+                              onClick={() => {
+                                 setSelected(user);
+                                 setShowModal(true);
+                              }}
+                           ></LiaEdit>
                            {/* <GrView size={20}></GrView> */}
                         </div>
                      </TableCol>
@@ -54,9 +64,17 @@ const UserManagement = () => {
                ))}
             </TableHeader>
          </div>
+         {showModal && (
+            <CommonModal
+               selected={selected}
+               setShow={setShowModal}
+               containerStyles=""
+            >
+               <h1 className="py-10">{selected.name}</h1>
+            </CommonModal>
+         )}
       </div>
    );
-   n;
 };
 
 export default UserManagement;

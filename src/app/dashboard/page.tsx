@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import profileImage from "@/assest/profile.jpg";
 import ProfileCard from "@/components/profileCard/ProfileCard";
 import ProfileRow from "@/components/ProfileRow/ProfileRow";
 import ActionButton from "@/components/Buttons/ActionButton";
