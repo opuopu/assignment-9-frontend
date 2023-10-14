@@ -1,10 +1,10 @@
 import Navbar from "@/components/Navbar/Index";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter , Roboto_Mono} from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
+import Providers from "@/redux/Provider";
 
 const roboto = Roboto_Mono({ subsets: ["latin"] });
-
 
 export const metadata: Metadata = {
    title: "Create Next App",
@@ -20,8 +20,7 @@ export default function RootLayout({
       <html lang="en">
          <body className={roboto.className}>
             <Navbar></Navbar>
-            {children}
-            
+            <Providers>{children}</Providers>
          </body>
       </html>
    );

@@ -1,21 +1,23 @@
 import Link from "next/link";
 
 const SideLink = ({
+   text,
    path,
    containersStyle,
    icon,
 }: {
+   text: string;
    path: string;
    containersStyle?: string;
    icon?: React.ReactNode;
 }) => {
    return (
       <Link
-         href={`/${path}`}
-         className={`flex items-center gap-3s text-sm text-primary font-medium capitalize ${containersStyle}`}
+         href={`${path}`}
+         className={`flex items-center duration-300 transition-all  gap-3 text-sm font-medium capitalize ${containersStyle}`}
       >
          {icon && icon}
-         {path}
+         <span>{text}</span>
       </Link>
    );
 };

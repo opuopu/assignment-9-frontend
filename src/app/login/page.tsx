@@ -1,52 +1,161 @@
 "use client";
-import { useForm } from "react-hook-form";
-import React from "react";
-
-import login from "../../assest/login.svg";
+import SubmitButton from "@/components/Buttons/SubmitButton";
+import ErrorMessage from "@/components/ErrorMessage/ErrorMessage";
+import InputText from "@/components/InputBox/InputBox";
+import { ChangeEventType, OnSubmitType, loginError, loginType } from "@/types";
 import Image from "next/image";
-import Form from "@/component/form/Form";
-import Input from "@/component/form/Input";
-const Login = () => {
-  const onSubmit = (data: any) => {
-    try {
-      console.log(data);
-    } catch (error) {}
-  };
-  return (
-    <section className="w-[80%] mx-auto  h-screen flex justify-center items-center">
-      <div className="grid grid-cols-2 items-center">
-        <div className="">
-          <Image src={login} alt="login" />
-        </div>
-        <div className="">
-          <h1 className="text-2xl mb-2 text-accent font-bold">Login Now</h1>
-          <div className="w-[80%]">
-            <Form submitHandler={onSubmit}>
-              <Input
-                name="user.name"
-                type="text"
-                label="email"
-                placeholder="enter your email"
-              />
-              <Input
-                name="user.password"
-                type="password"
-                label="password"
-                placeholder="enter your password"
-              />
+import loginImage from "../../assest/login.svg";
+import { useContext, useState } from "react";
+import Link from "next/link";
+// import { baseURL } from "../../Configs/libs";
+// import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
-              <button
-                className="btn btn-accent mt-2 text-white font-bold"
-                type="submit"
-              >
-                submit now
-              </button>
-            </Form>
-          </div>
-        </div>
+const Login = () => {
+   const [formData, setFormData] = useState<loginType>({
+      email: "",
+      password: "",
+   });
+   const [errors, setErrors] = useState<loginError>({
+      email: "",
+      password: "",
+      general: "",
+   });
+
+   const handleEmail: ChangeEventType = (e) => {
+      const name = e?.target?.name;
+      const value = e.target.value.trim();
+      if (!value.length) {
+         setErrors({ ...errors, [name]: "email shouldn't be empty" });
+         setFormData({ ...formData, [name]: "" });
+      } else if (
+         !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)
+      ) {
+         setErrors({ ...errors, [name]: "Please provide a email" });
+         setFormData({ ...formData, [name]: "" });
+      } else {
+         setErrors({ ...errors, [name]: "" });
+         setFormData({ ...formData, [name]: value });
+      }
+   };
+
+   const handlePassword: ChangeEventType = (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
+      if (value.length <= 0) {
+         setErrors({ ...errors, [name]: "password shouldn'b be empty  " });
+         setFormData({ ...formData, [name]: "" });
+      } else if (!/[A-Z]/.test(value)) {
+         setErrors({ ...errors, [name]: "must have a  capital letter " });
+         setFormData({ ...formData, [name]: "" });
+      } else if (!/[a-z]/.test(value)) {
+         setErrors({ ...errors, [name]: "must  have a small letter " });
+         setFormData({ ...formData, [name]: "" });
+      } else if (!/[0-9]/.test(value)) {
+         setErrors({ ...errors, [name]: "must  have a digit" });
+         setFormData({ ...formData, [name]: "" });
+      } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~]/.test(value)) {
+         setErrors({ ...errors, [name]: "must  have a special character" });
+         setFormData({ ...formData, [name]: "" });
+      } else if (value.length <= 8) {
+         setErrors({
+            ...errors,
+            [name]: "password must be 8 character or more",
+         });
+         setFormData({ ...formData, [name]: "" });
+      } else {
+         setErrors({ ...errors, [name]: "" });
+         setFormData({ ...formData, [name]: value });
+      }
+   };
+
+   const handleLogin: OnSubmitType = async (e) => {
+      e.preventDefault();
+      console.log(formData);
+      setErrors({ ...errors, general: "" });
+      const form = e.target;
+      try {
+         if (formData?.email && formData?.password) {
+            const res = await fetch(`$}/user/login`, {
+               method: "POST",
+               headers: {
+                  "content-type": "application/json",
+               },
+               body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data?.status === "success") {
+               console.log(data.data);
+               localStorage.setItem("accessToken", data.data.accessToken);
+            } else {
+               setErrors({ ...errors, general: data.message });
+            }
+         }
+      } catch (err: any) {
+         console.log(err);
+         setErrors({ ...errors, general: err.message });
+      }
+   };
+   return (
+      <div className="flex min-h-screen flex-col w-full md:flex-row gap-5 items-center justify-center">
+         <div className="flex items-center justify-center w-1/2">
+            <Image
+               src={loginImage}
+               alt="login"
+               className="object-contain w-[80%]"
+            ></Image>
+         </div>
+         <div className="w-1/2 flex items-center justify-center">
+            <form
+               onSubmit={handleLogin}
+               className="w-[400px] px-7  rounded-lg py-10 bg-secondary gap-3 flex flex-col  
+             shadow-[5px_3px_3px_3px_#ddd] hover:shadow-[-5px_-3px_3px_3px_#ddd] duration-500 transition-all "
+            >
+               <h2 className="text-xl font-medium text-black capitalize text-center">
+                  login in
+               </h2>
+               <InputText
+                  type="email"
+                  placeholder="enter your email"
+                  name="email"
+                  styles="text-lg"
+                  error={errors.email}
+                  onChange={handleEmail}
+               />
+               <InputText
+                  type="password"
+                  placeholder="enter your password"
+                  name="password"
+                  error={errors.password}
+                  styles="text-lg"
+                  onChange={handlePassword}
+               />
+               <Link
+                  href="/forget-password"
+                  className="text-blue-500 underline  text-end block text-xs "
+               >
+                  forget password
+               </Link>
+
+               <SubmitButton
+                  text="login"
+                  disabled={!formData.email || !formData.password}
+                  containerStyles=" bg-primary mx-auto   text-black inline-block  w-full  "
+               />
+               <p className="text-xs flex items-center">
+                  If you have no account, please{" "}
+                  <Link
+                     className="text-blue-500 underline text-xs text-end block"
+                     href="/register"
+                  >
+                     register
+                  </Link>
+               </p>
+               {errors.general && <ErrorMessage message={errors.general} />}
+            </form>
+         </div>
       </div>
-    </section>
-  );
+   );
 };
 
 export default Login;

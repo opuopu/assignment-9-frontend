@@ -15,8 +15,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
          {/* {isOpen && <div className="min-w-[200px] duration-500 translate-all"></div>} */}
          <div
             onClick={() => setIsOpen((prev) => !prev)}
-            className={`absolute text-secondary text-xl font-medium hover:text-red-500 ${
-               isOpen ? "left-[220px]" : "left-20px"
+            className={`absolute text-red-500 text-xl font-medium hover:text-red-500 ${
+               isOpen ? " top-0 left-[200px]  z-[9999]" : "left-20px"
             }`}
          >
             {isOpen ? (
@@ -31,7 +31,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             )}
          </div>
          <div
-            className={`${styles.dashBoardLayout} w-full p-5 duration-300 transition-all ease-in-out`}
+            className={`${styles.dashBoardLayout} w-full p-7 duration-300 transition-all ease-in-out`}
          >
             {children}
          </div>
