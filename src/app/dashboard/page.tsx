@@ -7,10 +7,12 @@ import ProfileCard from "@/components/profileCard/ProfileCard";
 import ProfileRow from "@/components/ProfileRow/ProfileRow";
 import ActionButton from "@/components/Buttons/ActionButton";
 import { useState } from "react";
+import CommonModal from "@/components/CommonModal/CommonModal";
+import ProfileEdit from "@/components/ProfileEdit";
 const DashboardPage = () => {
    const [showModal, setShowModal] = useState<boolean>(false);
    return (
-      <div className="flex items-start justify-center w-full">
+      <div className="flex items-start justify-center w-full relative">
          <div className=" w-[90%] md:w-[80%] bg-secondary  py-3 rounded-lg">
             <div className="border-b border-black pb-4 px-3 flex items-center justify-between">
                <h1>Profile Information</h1>
@@ -61,6 +63,11 @@ const DashboardPage = () => {
                </div>
             </div>
          </div>
+         {showModal && (
+            <CommonModal containerStyles="" setShow={setShowModal}>
+               <ProfileEdit></ProfileEdit>
+            </CommonModal>
+         )}
       </div>
    );
 };

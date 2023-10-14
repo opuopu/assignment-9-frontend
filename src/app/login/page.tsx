@@ -5,7 +5,7 @@ import InputText from "@/components/InputBox/InputBox";
 import { ChangeEventType, OnSubmitType, loginError, loginType } from "@/types";
 import Image from "next/image";
 import loginImage from "../../assest/login.svg";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 // import { baseURL } from "../../Configs/libs";
 // import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
@@ -97,18 +97,18 @@ const Login = () => {
       }
    };
    return (
-      <div className="flex min-h-screen flex-col w-full md:flex-row gap-5 items-center justify-center">
-         <div className="flex items-center justify-center w-1/2">
+      <div className="flex min-h-screen py-10 flex-col w-full md:flex-row gap-5 items-center justify-center">
+         <div className="  hidden md:flex items-center justify-center    w-full md:w-1/2">
             <Image
                src={loginImage}
                alt="login"
                className="object-contain w-[80%]"
             ></Image>
          </div>
-         <div className="w-1/2 flex items-center justify-center">
+         <div className=" w-full  md:w-1/2 flex items-center justify-center">
             <form
                onSubmit={handleLogin}
-               className="w-[400px] px-7  rounded-lg py-10 bg-secondary gap-3 flex flex-col  
+               className=" w-[80%] md:w-[400px] px-7  rounded-lg py-10 bg-secondary gap-3 flex flex-col  
              shadow-[5px_3px_3px_3px_#ddd] hover:shadow-[-5px_-3px_3px_3px_#ddd] duration-500 transition-all "
             >
                <h2 className="text-xl font-medium text-black capitalize text-center">
@@ -142,7 +142,7 @@ const Login = () => {
                   disabled={!formData.email || !formData.password}
                   containerStyles=" bg-primary mx-auto   text-black inline-block  w-full  "
                />
-               <p className="text-xs flex items-center">
+               <p className="text-xs flex items-center gap-2">
                   If you have no account, please{" "}
                   <Link
                      className="text-blue-500 underline text-xs text-end block"

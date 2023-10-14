@@ -1,5 +1,3 @@
-import { loginType } from "@/types";
-import { loginType } from "./index";
 import { ChangeEvent, FormEvent, MouseEvent } from "react";
 
 export interface ProductCardProps {
@@ -61,4 +59,44 @@ export interface registerErrorType extends loginError {
    lastName: string;
    phone: string;
    confirm: string;
+}
+
+export interface ImageUploadProps {
+   id: string;
+   onChange: ChangeEventType;
+   image?: ImageType[];
+   error: string;
+   imageStyles?: string;
+   isMultiple: boolean;
+}
+
+export interface ImageType {
+   publicLink: string;
+   url: string;
+}
+
+export interface UserEditInfoType {
+   name: string;
+   email: string;
+   phone: string;
+   profileImage: {
+      url: string;
+      publicLink: string;
+   };
+   nationality: string;
+   language: string;
+   address: string;
+   gender: "male" | "female" | "others";
+   dob: string;
+}
+export interface userEditErrorType {
+   name: string;
+   email: string;
+   phone: string;
+   profileImage: string;
+   nationality: string;
+   language: string;
+   address: string;
+   gender: string;
+   dob: "";
 }

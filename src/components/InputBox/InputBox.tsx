@@ -19,13 +19,14 @@ const InputText = ({
             <label className=" font-semibold text-sm capitalize" htmlFor={name}>
                {label}
             </label>
+            
             <input
                type={type}
                name={name}
                id={name}
                placeholder={placeholder}
                onChange={onChange}
-               value={initialValue}
+               defaultValue={initialValue}
                className={`text-sm placeholder:text-gray-700 border-[1.5px]  border-gray-800 outline-none w-full h-full placeholder:capitalize  py-2 pl-1 gap-2  rounded-md  ${styles}`}
             />
          </div>

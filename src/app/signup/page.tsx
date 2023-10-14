@@ -35,10 +35,10 @@ const Signup = () => {
       const name = e.target.name;
       const value = e.target.value;
       if (!value?.length) {
-         setErrors({ ...formData, [name]: `${name} shouldn't be empty` });
+         setErrors({ ...errors, [name]: `${name} shouldn't be empty` });
          setFormData({ ...formData, [name]: "" });
       } else {
-         setErrors({ ...formData, [name]: `` });
+         setErrors({ ...errors, [name]: `` });
          setFormData({ ...formData, [name]: value });
       }
    };
@@ -180,24 +180,24 @@ const Signup = () => {
       }
    };
    return (
-      <div className="flex min-h-screen flex-col w-full md:flex-row gap-5 items-center justify-center">
-         <div className="flex items-center justify-center w-full md:w-1/2">
+      <div className="flex min-h-screen px-10  py-5 flex-col w-full md:flex-row gap-5 items-center justify-center">
+         <div className="hidden md:flex items-center justify-center w-full md:w-1/2">
             <Image
                src={loginImage}
                alt="login"
-               className="object-contain w-[80%]"
+               className="object-contain w-full md:w-[80%]"
             ></Image>
          </div>
          <div className=" w-full md:w-1/2 flex items-center justify-center">
             <form
                onSubmit={handleLogin}
-               className="w-[80%]  px-7  rounded-lg py-10 bg-secondary gap-3 flex flex-col  
-      shadow-[5px_3px_3px_3px_#ddd] hover:shadow-[-5px_-3px_3px_3px_#ddd] duration-500 transition-all "
+               className="w-full  px-7  rounded-lg py-10 bg-secondary gap-3 flex flex-col  
+        shadow-[5px_3px_3px_3px_#ddd] hover:shadow-[-5px_-3px_3px_3px_#ddd] duration-500 transition-all "
             >
                <h2 className="text-xl font-medium text-black capitalize text-center">
-                  login in
+                  registration form
                </h2>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
                   <InputText
                      type="firstName"
                      placeholder="enter your firstName"
@@ -261,7 +261,7 @@ const Signup = () => {
                </Link> */}
 
                <SubmitButton
-                  text="login"
+                  text="Register now"
                   disabled={
                      !formData.firstName ||
                      !formData.lastName ||
@@ -270,10 +270,10 @@ const Signup = () => {
                      !formData?.confirm ||
                      !formData?.phone
                   }
-                  containerStyles=" bg-primary mx-auto   text-black inline-block  w-full  "
+                  containerStyles=" bg-primary mx-auto   text-black inline-block  w-full md:w-1/2  "
                />
-               <p className="text-xs flex items-center">
-                  Already have an account please
+               <p className="text-xs flex items-center gap-2">
+                  Already have an account
                   <Link
                      className="text-blue-500 underline text-xs text-end block"
                      href="/login"
